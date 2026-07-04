@@ -1,0 +1,51 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.3.5
+collected 5 items
+
+../tests/test_outputs.py ..FFF                                           [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_required_fields_present _________________________
+
+    def test_required_fields_present():
+        """Success Criterion 3: Include all required summary fields."""
+        report = load_report()
+    
+        assert "total_requests" in report
+>       assert "clients" in report
+E       AssertionError: assert 'clients' in {'top_path': '/index.html', 'total_requests': 6, 'unique_ips': 3}
+
+/tests/test_outputs.py:30: AssertionError
+_______________________________ test_field_types _______________________________
+
+    def test_field_types():
+        """Success Criterion 4: Required fields have the correct types."""
+        report = load_report()
+    
+        assert isinstance(report["total_requests"], int)
+>       assert isinstance(report["clients"], list)
+                          ^^^^^^^^^^^^^^^^^
+E       KeyError: 'clients'
+
+/tests/test_outputs.py:39: KeyError
+__________________________ test_popular_pages_schema ___________________________
+
+    def test_popular_pages_schema():
+        """Success Criterion 5: Each popular_pages entry has the required fields."""
+        report = load_report()
+    
+>       for page in report["popular_pages"]:
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'popular_pages'
+
+/tests/test_outputs.py:47: KeyError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED ../tests/test_outputs.py::test_output_exists
+PASSED ../tests/test_outputs.py::test_output_is_valid_json
+FAILED ../tests/test_outputs.py::test_required_fields_present - AssertionErro...
+FAILED ../tests/test_outputs.py::test_field_types - KeyError: 'clients'
+FAILED ../tests/test_outputs.py::test_popular_pages_schema - KeyError: 'popul...
+========================= 3 failed, 2 passed in 0.05s ==========================

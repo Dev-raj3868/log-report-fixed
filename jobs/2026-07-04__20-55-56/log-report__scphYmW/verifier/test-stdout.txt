@@ -1,0 +1,107 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.3.5
+collected 5 items
+
+../tests/test_outputs.py FFFFF                                           [100%]
+
+=================================== FAILURES ===================================
+______________________________ test_output_exists ______________________________
+
+    def test_output_exists():
+        """Success Criterion 1: Produce the required JSON output."""
+>       assert REPORT.exists(), "report.json not found"
+E       AssertionError: report.json not found
+E       assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/app/report.json').exists
+
+/tests/test_outputs.py:16: AssertionError
+__________________________ test_output_is_valid_json ___________________________
+
+    def test_output_is_valid_json():
+        """Success Criterion 2: The output must be valid JSON."""
+>       with REPORT.open("r", encoding="utf-8") as f:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_outputs.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/app/report.json'), mode = 'r', buffering = -1
+encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/app/report.json'
+
+/usr/local/lib/python3.14/pathlib/__init__.py:771: FileNotFoundError
+_________________________ test_required_fields_present _________________________
+
+    def test_required_fields_present():
+        """Success Criterion 3: Include all required summary fields."""
+>       report = load_report()
+                 ^^^^^^^^^^^^^
+
+/tests/test_outputs.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def load_report():
+>       assert REPORT.exists(), "report.json not found"
+E       AssertionError: report.json not found
+E       assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/app/report.json').exists
+
+/tests/test_outputs.py:9: AssertionError
+_______________________________ test_field_types _______________________________
+
+    def test_field_types():
+        """Success Criterion 4: Required fields have the correct types."""
+>       report = load_report()
+                 ^^^^^^^^^^^^^
+
+/tests/test_outputs.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def load_report():
+>       assert REPORT.exists(), "report.json not found"
+E       AssertionError: report.json not found
+E       assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/app/report.json').exists
+
+/tests/test_outputs.py:9: AssertionError
+__________________________ test_popular_pages_schema ___________________________
+
+    def test_popular_pages_schema():
+        """Success Criterion 5: Each popular_pages entry has the required fields."""
+>       report = load_report()
+                 ^^^^^^^^^^^^^
+
+/tests/test_outputs.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def load_report():
+>       assert REPORT.exists(), "report.json not found"
+E       AssertionError: report.json not found
+E       assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/app/report.json').exists
+
+/tests/test_outputs.py:9: AssertionError
+=========================== short test summary info ============================
+FAILED ../tests/test_outputs.py::test_output_exists - AssertionError: report....
+FAILED ../tests/test_outputs.py::test_output_is_valid_json - FileNotFoundErro...
+FAILED ../tests/test_outputs.py::test_required_fields_present - AssertionErro...
+FAILED ../tests/test_outputs.py::test_field_types - AssertionError: report.js...
+FAILED ../tests/test_outputs.py::test_popular_pages_schema - AssertionError: ...
+============================== 5 failed in 0.05s ===============================
